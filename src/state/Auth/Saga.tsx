@@ -37,9 +37,14 @@ function* getUsernameFromDatabase(action: any): Generator<any> {
     let today = new Date();
     const standard = today.toISOString().split("T")[0];
     console.log("standard", standard);
-    const tableData: any = yield authAPI.get("/instrument/day-details", { query: { date: "2023-12-08" } })
-    console.log("+++tableData", tableData);
-    yield put(getTabledataSuccess(tableData));
+    try {
+      const tableData: any = yield authAPI.get("/instrument/day-details", { query: { date: "2023-12-08" } })
+      console.log("+++tableData", tableData);
+      yield put(getTabledataSuccess(tableData));
+    } catch (error: any) {
+      console.log("instrument error", error)
+    }
+
   } catch (error: any) {
     console.log("+++ getting userData failed", error);
   }

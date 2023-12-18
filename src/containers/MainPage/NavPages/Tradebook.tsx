@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box } from "@react-native-material/core";
-import { Image, Pressable, Dimensions } from "react-native"
+import { Image, Pressable, Dimensions, ScrollView } from "react-native"
 import { Badge, DataTable, Icon, Text, Avatar } from "react-native-paper";
 import { connect } from "react-redux";
 import appStyle from "../../style";
@@ -60,7 +60,7 @@ const Tradebook: React.FC<PredictionProps> = (props) => {
             position:
               "relative"
           }} >
-            {themeMode == "light" ? <Image source={require("@src/assets/svg/new/notification_black.svg")} style={{ width: 48, height: 48 }}></Image> : <Image source={require("@src/assets/svg/new/notification.svg")} style={{ width: 48, height: 48 }}></Image>}
+            {themeMode == "light" ? <Image source={require("@src/assets/svg/new/notification_black.png")} style={{ width: 48, height: 48 }}></Image> : <Image source={require("@src/assets/svg/new/notification.png")} style={{ width: 48, height: 48 }}></Image>}
             <Badge
               size={16}
               style={{
@@ -138,15 +138,15 @@ const Tradebook: React.FC<PredictionProps> = (props) => {
               <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>p.Trend</DataTable.Title>
               <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>p.Low</DataTable.Title>
             </DataTable.Header>
-            <Box style={{ height: tableHeight, overflow: "scroll" }}>
-              {tableData.data ? arrayData.map((item) => (
-                <DataTable.Row style={appStyle(themeMode).dataTableRow}>
+            <ScrollView style={{ height: tableHeight, overflow: "scroll" }}>
+              {tableData.data ? arrayData.map((item, index) => (
+                <DataTable.Row key={index} style={appStyle(themeMode).dataTableRow}>
                   <DataTable.Cell style={appStyle(themeMode).columnSeparatorBody}>
                     <Box style={{ display: "flex", flexDirection: "row", gap: 3.5 }}>
                       <Box>
                         <Image style={{
                           width: 32, height: 32
-                        }} source={require("@src/assets/svg/new/Cattle_Feeder.svg")}></Image>
+                        }} source={require("@src/assets/svg/new/Cattle_Feeder.png")}></Image>
                       </Box>
                       <Box>
                         <Text style={appStyle(themeMode).symbolName}>{item.name}</Text>
@@ -156,12 +156,12 @@ const Tradebook: React.FC<PredictionProps> = (props) => {
                   </DataTable.Cell>
                   <DataTable.Cell style={{ justifyContent: "center" }}><Image style={{
                     width: 20, height: 20
-                  }} source={item.side == "SELL" ? require("@src/assets/svg/new/sell.svg") : require("@src/assets/svg/new/buy.svg")} style={{ width: 45, height: 30 }}></Image></DataTable.Cell>
+                  }} source={item.side == "SELL" ? require("@src/assets/svg/new/sell.png") : require("@src/assets/svg/new/buy.png")} style={{ width: 45, height: 30 }}></Image></DataTable.Cell>
                   <DataTable.Cell numeric><Text style={appStyle(themeMode).symbolName}>{item.entry}</Text></DataTable.Cell>
                   <DataTable.Cell numeric><Text style={appStyle(themeMode).symbolName}>{item.tp}</Text></DataTable.Cell>
                 </DataTable.Row>
               )) : null}
-            </Box>
+            </ScrollView>
           </DataTable>
         </Box>
       </Box >

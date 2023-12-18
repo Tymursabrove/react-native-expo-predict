@@ -28,8 +28,8 @@ const App = () => {
     "Visby CF-DemiBold": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-demibold.otf'),
     "Visby CF-ExtraBold": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-extrabold.otf'),
     "Visby CF-heavy": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-heavy.otf'),
-    "VisbyCF-MEDIUM": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-medium.otf'),
-    "VisbyCF-Thin": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-thin.otf')
+    "Visby CF-MEDIUM": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-medium.otf'),
+    "Visby CF-Thin": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-thin.otf')
   });
 
   if (!fontsLoaded) {

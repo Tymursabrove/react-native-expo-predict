@@ -30,17 +30,19 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
   let tableHeight = height - 578;
   let initialism = username.split(" ")[0].substring(0, 1) + username.split(" ")[1].substring(0, 1)
 
-  let name = [];
+  let name: any = [];
   let EOD = [];
   if (tableData.data) {
     tableData.data.forEach((row: any, index: number) => {
-      name.push({ label: row.name, value: index });
+      name.push({ label: row.name, value: index.toString() });
     })
   }
-  const changeInputValue = (item) => {
+  const changeInputValue = (item: any) => {
+    console.log("-----------------", tableData.data[item._index].entryPrice, tableData.data[item._index].takeProfit, tableData.data[item._index].stopLoss)
     setEntryPrice(tableData.data[item._index].entryPrice);
     setTakeProfit(tableData.data[item._index].takeProfit);
     setStopLoss(tableData.data[item._index].stopLoss);
+    setAmount(tableData.data[item._index].amount);
   }
   // const name = [
   //   { label: 'MT5', value: 'MT5' },
@@ -97,7 +99,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
             position:
               "relative"
           }} >
-            {themeMode == "light" ? <Image source={require("@src/assets/svg/new/notification_black.svg")} style={{ width: 48, height: 48 }}></Image> : <Image source={require("@src/assets/svg/new/notification.svg")} style={{ width: 48, height: 48 }}></Image>}
+            {themeMode == "light" ? <Image source={require("@src/assets/svg/new/notification_black.png")} style={{ width: 48, height: 48 }}></Image> : <Image source={require("@src/assets/svg/new/notification.png")} style={{ width: 48, height: 48 }}></Image>}
             <Badge
               size={16}
               style={{
@@ -253,7 +255,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
         }}>
           <TextInput
             mode="outlined"
-            value={entryPrice}
+            value={entryPrice.toString()}
             textColor={themeMode == "light" ? "#B9B9B9" : "#5A5C5D"}
             label={<Text style={appStyle(themeMode).entryPriceLabel}>Entry Price</Text>}
             outlineColor={themeMode == "light" ? "#B9B9B9" : "#5A5C5D"}
@@ -277,7 +279,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
         }}>
           <TextInput
             mode="outlined"
-            value={takeProfit}
+            value={takeProfit.toString()}
             textColor={themeMode == "light" ? "#141414" : "#E7E7E7"}
             label={<Text style={appStyle(themeMode).takeProfitLabel}>Take Profit</Text>}
             outlineColor="#36DD84"
@@ -286,7 +288,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
           ></TextInput>
           <TextInput
             mode="outlined"
-            value={stopLoss}
+            value={stopLoss.toString()}
             textColor={themeMode == "light" ? "#141414" : "#E7E7E7"}
             label={<Text style={appStyle(themeMode).stopLossLabel}>Stop Loss</Text>}
             outlineColor="#FE2828"
@@ -298,6 +300,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
+          alignItems: "center",
           gap: 20,
           borderRadius: 8,
           backgroundColor: themeMode == "light" ? "white" : "#232627",
@@ -306,7 +309,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
           <Button buttonColor="#3CD981" style={appStyle(themeMode).colorButton} textColor="white" contentStyle={{ height: 48 }}>BUY</Button>
           <Box style={{ width: 80, height: 40 }}>
             <Dropdown
-              style={appStyle(themeMode).dropdown}
+              style={[appStyle(themeMode).dropdown, { flex: 1 }]}
               selectedTextStyle={{
                 color: themeMode == "light" ? "#141414" : "#E7E7E7",
               }}
@@ -331,6 +334,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
                 backgroundColor: themeMode == "light" ? "white" : "#232627",
                 borderRadius: 8,
                 overflow: "scroll",
+                width: 110
               }}
               activeColor={themeMode == "light" ? "#F4F4F4" : "#141414"}
               onChange={(item) => {
@@ -350,7 +354,7 @@ const mapStateToProps = (state: any) => ({
   themeMode: state.auth.themeMode,
   username: state.auth.username,
   tableData: state.auth.tableData,
-  chartVisibility: state.auth.chartVisibiliy
+  chartVisibility: state.auth.chartVisibility
 })
 
 const mapDispatchToProps = (dispatch: any) => {

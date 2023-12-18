@@ -2,15 +2,14 @@ import { StyleSheet } from 'react-native';
 
 export default appStyle = (themeMode) => StyleSheet.create({
   globalBackground: {
+    scrollEnabled: "true",
     height: "100%",
-    overflowY: 'auto',
+    overflowY: "scroll",
     backgroundColor: themeMode === "light" ? "#F4F4F4" : "#1D1F21"
   },
   logo: {
     width: 211.625,
-    height: 36.409,
-    margin: "auto",
-    marginTop: 100,
+    height: 36.409
   },
   title: {
     fontFamily: "Visby CF-Bold",
@@ -79,7 +78,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Visby CF',
     fontWeight: '400',
-    lineHeight: 16,
+    lineHeight: 20,
     color: themeMode === "light" ? "#F4F4F4" : "white",
     backgroundColor: themeMode === "light" ? "white" : "#232627"
   },
@@ -103,7 +102,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
     fontFamily: 'Visby CF',
     fontWeight: '500',
     color: themeMode === "light" ? "#141414" : "#E7E7E7",
-    backgroundColor: themeMode === "light" ? "#F4F4F4" : "#1D1F21"
+    backgroundColor: themeMode === "light" ? "rgba(0, 0, 0, 0)" : "#1D1F21"
   },
   validationFont: {
     color: '#FE2828',
@@ -148,7 +147,8 @@ export default appStyle = (themeMode) => StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    width: 80
   },
   navbarText: {
     color: themeMode == "light" ? "#141414" : "#E7E7E7",
@@ -168,7 +168,6 @@ export default appStyle = (themeMode) => StyleSheet.create({
     fontWeight: '400'
   },
   colorButton: {
-    width: 115,
     height: 48,
     fontSize: 16,
     fontFamily: 'Visby CF',
@@ -176,7 +175,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
     borderRadius: 8,
     lineHeight: 48,
     color: "white",
-    flexShrink:2
+    flex:1
   },
   termTitle: {
     color: themeMode === "light" ? '#141414' : "white",
@@ -259,7 +258,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
   entryPriceInput: {
     color: themeMode == "light" ? "#B9B9B9" : "#5A5C5D",
     backgroundColor: themeMode == "light" ? "#F4F4F4" : "#1D1F21",
-    flexShrink:2
+    flex:1
   },
   entryPriceLabel: {
     color: themeMode == "light" ? "#B9B9B9" : "#5A5C5D",
@@ -271,7 +270,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
   takeProfitInput: {
     color: themeMode =="light"? "#141414" : "#E7E7E7",
     backgroundColor: themeMode == "light" ? "#e1f2e9" : "#1d3129",
-    flexShrink:2
+    flex:1
   },
   takeProfitLabel: {
     color: themeMode =="light" ? "#36DD84" : "#36DD84",
@@ -283,7 +282,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
   stopLossInput: {
     color: themeMode =="light"? "#141414" : "E7E7E7",
     backgroundColor: themeMode == "light" ? "#f5e0e0" : "#332022",
-    flexShrink:2
+    flex:1
   },
   stopLossLabel: {
     color: themeMode=="light" ? "#FE2828" : "#FE2828",
@@ -294,7 +293,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: themeMode =="light"?"B9B9B9": "#E7E7E7",
-    paddingHorizontal: 16,
+    paddingHorizontal: 16
   },
   verificationCell: {
     width: 51,

@@ -26,21 +26,24 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
     useNavigation();
   return (
     <Box style={appStyle(themeMode).background}>
-      <Text style={appStyle(themeMode).termTitle}>Terms of User</Text>
+      <Text style={appStyle(themeMode).termTitle}>Terms of Use</Text>
       <ScrollView
-        persistentScrollbar="true"
-        showsVerticalScrollIndicator="true"
+        persistentScrollbar={true}
+        showsVerticalScrollIndicator={true}
         style={{
           marginTop: 27,
           marginLeft: 20,
           marginRight: 20,
-          height: "78vh"
+          height: 500
         }}>
         <Box mt={27} style={{
           display: "flex",
           flexDirection: "column",
           gap: 16
         }}>
+          <Text style={appStyle(themeMode).termText}>
+            Welcome to NEXDAY, (the “company”) and GoPredict application, hereafter the “application” designed to provide market predictions and trading strategies. By using our services, you agree to comply with and be bound by the following terms and conditions (the “Terms”). Please review them carefully.
+          </Text>
           <Box style={{
             display: "flex",
             flexDirection: "column",
@@ -48,10 +51,10 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              1. Acceptance of Terms
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              Your access to and use of our services is conditioned upon your acceptance of and compliance with these Terms. If you do not agree to these Terms, you may not access or use our services.
             </Text>
           </Box>
           <Box style={{
@@ -61,10 +64,10 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              2. Service Description
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              Our application publishes market predictions and trading strategies once daily, Monday through Friday, at a specific time before the opening bell. Our predictions are based on proprietary neural network algorithms that analyse financial instruments across a broad market, incorporating both fundamental and technical data.
             </Text>
           </Box>
           <Box style={{
@@ -74,10 +77,10 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              3. Accuracy and Performance
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              Our predictions have been tested against live markets and historical data over the last 8 years, achieving an accuracy score of over 82%. However, it is crucial to understand that past performance is not indicative of future results. There are no guarantees that future predictions would achieve this kind of accuracy.
             </Text>
           </Box>
           <Box style={{
@@ -87,10 +90,10 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              4. No Advisory or Solicitation
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              Our services are not to be interpreted as a solicitation for trading, or trading at any specific broker, intermediary or dealer nor should they be construed as an advisory service. The information and strategies provided are for informational purposes only.
             </Text>
           </Box>
           <Box style={{
@@ -100,10 +103,10 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              5. User Responsibility
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              Users are solely responsible for how they use our predictions and strategies. We shall not be held liable for any damages or losses incurred as a result of using our services. Users should exercise their own judgment and seek advice from qualified professionals before making any investment decisions.
             </Text>
           </Box>
           <Box style={{
@@ -113,10 +116,10 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              6. Best Trading Opportunities (also known as “BTO”)
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              While our service may include information on what we believe to be the best trading opportunities, these are based on strict data modelling and have an accuracy rate of over 90%. Nonetheless, these opportunities are subject to the same disclaimers and limitations as our other predictions and strategies.
             </Text>
           </Box>
           <Box style={{
@@ -126,10 +129,10 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              7. Limitation of Liability
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              Under no circumstances shall NEXDAY be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising out of your use of or inability to use our services.
             </Text>
           </Box>
           <Box style={{
@@ -139,10 +142,36 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}>
             <Text
               style={appStyle(themeMode).termSubitle}>
-              Heading
+              8. Modifications to the Terms
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              Lorem ipsum dolor sit amet consectetur. Praesent augue mauris malesuada sociis placerat amet in aliquet non. Augue auctor morbi morbi ipsum elementum dictum. Suspendisse lobortis ac dignissim amet sollicitudin. Mi ullamcorper sit enim tellus ac vitae. Ut nullam fames augue in.
+              We reserve the right to modify these Terms at any time. Your continued use of our services following the posting of changes will mean that you accept and agree to the changes.
+            </Text>
+          </Box>
+          <Box style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16
+          }}>
+            <Text
+              style={appStyle(themeMode).termSubitle}>
+              9. Governing Law
+            </Text>
+            <Text style={appStyle(themeMode).termText}>
+              These Terms shall be governed by and construed in accordance with the laws as prescribed on our website and/or other contractual agreements without giving effect to any principles of conflicts of law.
+            </Text>
+          </Box>
+          <Box style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16
+          }}>
+            <Text
+              style={appStyle(themeMode).termSubitle}>
+              10. Contact Information
+            </Text>
+            <Text style={appStyle(themeMode).termText}>
+              For any questions regarding these Terms, please contact us at gopredict@nexday.ai{"\n"}{"\n"}{"\n"}
             </Text>
           </Box>
         </Box>
@@ -167,7 +196,7 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
         bottom: 34,
         right: 21,
         display: "flex",
-        alignItems: "end"
+        alignItems: "flex-end"
       }}>
         <Button
           mode="contained"
@@ -175,12 +204,12 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           buttonColor={themeMode == "light" ? "#141414" : "white"}
           style={{
             borderRadius: 8,
-            width: 167,
-            height: 48
+            width: "auto",
+            height: 48,
           }}
           contentStyle={{ height: 48 }}
           onPress={() => { navigation.navigate("LogIn") }}
-        ><Text style={{ fontFamily: 'Visby CF-thin', fontWeight: '700', color: themeMode == "light" ? "white" : "black" }}>Close & GoPredict</Text></Button>
+        ><Text style={{ fontFamily: 'Visby CF-Thin', fontWeight: '700', color: themeMode == "light" ? "white" : "black" }}>Close & GoPredict</Text></Button>
       </Box >
     </Box>
   );

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box, Text, TextInput } from "@react-native-material/core";
-import { View, Image, Dimensions, Pressable } from "react-native";
+import { View, Image, Dimensions, Pressable, ScrollView, BackHandler } from "react-native";
 import { Divider, Icon } from 'react-native-paper';
 import { AppBar } from "@react-native-material/core"
 import appStyle from "../style";
@@ -19,13 +19,28 @@ const EventPage: React.FC<Props> = (props) => {
   let windowHeight = Dimensions.get("window").height;
   windowHeight = windowHeight - 60;
   console.log(windowHeight);
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack()
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+      backHandler.remove();
+    }
+  }, [])
   return (
     <Box style={{
       width: "100%",
       height: "100%",
       overflow: "hidden"
     }}>
-      <Box style={{ height: windowHeight, overflow: "scroll", marginTop: 60 }}>
+      <ScrollView style={{ height: windowHeight, overflow: "scroll", marginTop: 60 }}>
         <Box id="passage">
           <Box p={20} style={appStyle(themeMode).eventPassage}>
             <Text style={appStyle(themeMode).eventTitle}>Copy Trade</Text>
@@ -106,9 +121,8 @@ const EventPage: React.FC<Props> = (props) => {
           </Box>
           <Divider />
         </Box>
+      </ScrollView>
 
-
-      </Box>
       <Box style={{
         position: "absolute",
         width: "100%",
@@ -123,7 +137,7 @@ const EventPage: React.FC<Props> = (props) => {
           centerTitle={true}
           color={themeMode == "light" ? "#F4F4F4" : "#1D1F21"}
           enableColorOnDark
-          leading={<Pressable onPress={() => navigation.navigate("MainPage")}>{themeMode === "light" ? <Image source={require("@src/assets/svg/new/back.svg")} style={{ width: 32, height: 32, marginLeft: 20 }}></Image> : <Image source={require("@src/assets/svg/new/back_black.svg")} style={{ width: 32, height: 32, marginLeft: 20 }}></Image>}</Pressable>}>
+          leading={<Pressable onPress={() => navigation.navigate("MainPage")}>{themeMode === "light" ? <Image source={require("@src/assets/svg/new/back.png")} style={{ width: 32, height: 32, marginLeft: 20 }}></Image> : <Image source={require("@src/assets/svg/new/back_black.png")} style={{ width: 32, height: 32, marginLeft: 20 }}></Image>}</Pressable>}>
         </AppBar>
       </Box>
     </Box>

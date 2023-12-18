@@ -4,7 +4,8 @@ import { Box } from "@react-native-material/core";
 import { TextInput, Text, Button, Icon } from "react-native-paper"
 import {
   Image,
-  Pressable
+  Pressable,
+  ScrollView
 } from "react-native";
 
 import * as SecureStore from "expo-secure-store";
@@ -99,16 +100,16 @@ const MailVerify: React.FC<Props> = (props) => {
   }
     , [isPwdFocused, isConfirmPwdFocused])
   return (
-    <Box style={appStyle(themeMode).globalBackground}>
-      <Box>
+    <ScrollView style={appStyle(themeMode).globalBackground}>
+      <Box mt={100} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {themeMode === "light" ?
           (<Image
             style={appStyle(themeMode).logo}
-            source={require("@src/assets/svg/new/logo.svg")}
+            source={require("@src/assets/svg/new/logo.png")}
           />) :
           (<Image
             style={appStyle(themeMode).logo}
-            source={require("@src/assets/svg/new/logo_dark.svg")}
+            source={require("@src/assets/svg/new/logo_dark.png")}
           />)}
       </Box>
       <Box mt={61.59}>
@@ -116,8 +117,8 @@ const MailVerify: React.FC<Props> = (props) => {
           Request sent successfully!
         </Text>
         <Text style={appStyle(themeMode).subtitle} >
-          We've sent a confirmation code to  your email.<br />
-          Please enter the code in the box below to <br />
+          We've sent a confirmation code to  your email.{"\n"}
+          Please enter the code in the box below to {"\n"}
           continue with the password change
         </Text>
       </Box>
@@ -144,7 +145,7 @@ const MailVerify: React.FC<Props> = (props) => {
           />
         </SafeAreaView>
       </Box>
-      <Box ml={32} mr={32} id="form-section">
+      <Box ml={32} mr={32} mb={50} id="form-section">
         <TextInput ref={pwdRef}
           label={<Text style={appStyle(themeMode).textInputLabel}>New Password</Text>}
           mode="outlined"
@@ -215,7 +216,7 @@ const MailVerify: React.FC<Props> = (props) => {
           </Box>
         </Pressable>
       </Box>
-    </Box>
+    </ScrollView>
   );
 };
 

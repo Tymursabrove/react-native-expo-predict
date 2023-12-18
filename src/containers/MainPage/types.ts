@@ -36,5 +36,6 @@ export type MainpageProps = {
   getUsername: any,
   themeMode: string,
   username: string,
-  tableData: any
+  tableData: any,
+  deleteData: Function
 }

@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
 import appStyle from '../../style';
 import { Box } from "@react-native-material/core";
-import { TextInput, Text, Button, Icon } from "react-native-paper"
+import { TextInput, Text, Button, Icon, Checkbox } from "react-native-paper"
 import {
-  CheckBox,
   Image,
-  Pressable
+  Pressable,
+  ScrollView,
+  BackHandler,
+  Alert
 } from "react-native";
-
+import { SvgUri } from 'react-native-svg';
 import * as SecureStore from "expo-secure-store";
 import { Props } from "./types";
 import { connect } from "react-redux";
 import { loginRequest } from "@src/state/Auth/Actions";
-
 const LoginPage: React.FC<Props> = (props) => {
   const { loading, error, requestLogin, themeMode } = props;
   const [pwdVisible, setPwdVisible] = useState(false);
-  const [isSelected, setSelection] = useState(false);
-
+  const [isSelected, setSelection] = useState('unchecked');
+  const img = require('../../../assets/svg/new/logo.png');
+  const img_dark = require('../../../assets/svg/new/logo_dark.png');
   //Payload
   const [password, setPassword] = useState("");
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -40,18 +42,44 @@ const LoginPage: React.FC<Props> = (props) => {
     }
   }, [loading])
 
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to exit App?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'YES', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+      backHandler.remove();
+    }
+  }, [])
+
   return (
-    <Box style={appStyle(themeMode).globalBackground}>
-      <Box>
+    <ScrollView style={appStyle(themeMode).globalBackground}>
+      <Box mt={100} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {themeMode === "light" ?
+          (
+            <Image
+              resizeMode="cover"
+              style={appStyle(themeMode).logo}
+              source={img}
+            />) :
           (<Image
+            resizeMode="cover"
             style={appStyle(themeMode).logo}
-            source={require("@src/assets/svg/new/logo.svg")}
-          />) :
-          (<Image
-            style={appStyle(themeMode).logo}
-            source={require("@src/assets/svg/new/logo_dark.svg")}
-          />)}
+            source={img_dark} />)
+        }
       </Box>
       <Box mt={121.59}>
         <Text style={{ textAlign: "center" }}>
@@ -70,7 +98,7 @@ const LoginPage: React.FC<Props> = (props) => {
           outlineStyle={{ borderColor: themeMode === "light" ? "rgba(20, 20, 20, 0.3)" : "rgba(231, 231, 231, 0.3)", borderRadius: 8 }}
           textColor={themeMode === "light" ? "rgba(20, 20, 20, 0.3)" : "rgba(231, 231, 231, 0.3)"}
           onChangeText={(text) => setEmailOrUsername(text)}
-          left={<TextInput.Icon icon={require('@src/assets/img/user.png')} color="#B9B9B9" size={20}></TextInput.Icon>}
+          left={<TextInput.Icon style={{ marginTop: 15 }} icon={require('@src/assets/img/user.png')} color="#B9B9B9" size={24}></TextInput.Icon>}
           style={[appStyle(themeMode).textInput, { backgroundColor: themeMode === "light" ? "#F4F4F4" : "#1D1F21" }]}
         />
         <TextInput
@@ -78,8 +106,10 @@ const LoginPage: React.FC<Props> = (props) => {
           mode="outlined"
           secureTextEntry={pwdVisible ? false : true}
           right={<TextInput.Icon
-            icon={pwdVisible ? "eye" : require('@src/assets/svg/new/eye-slash.svg')}
+            icon={pwdVisible ? "eye" : require('@src/assets/svg/new/eye-slash.png')}
             color={themeMode === "light" ? "#141414" : "#E7E7E7"}
+            size={24}
+            style={{ marginTop: 15 }}
             onPress={() => pwdVisible ? setPwdVisible(false) : setPwdVisible(true)}
           />}
           outlineStyle={{ borderColor: themeMode === "light" ? "#141414" : "#E7E7E7", borderRadius: 8 }}
@@ -90,20 +120,21 @@ const LoginPage: React.FC<Props> = (props) => {
 
         />
         <Box mt={20} style={{
+          display: "flex",
           flexDirection: "row",
           gap: 12,
           alignItems: "center",
         }}>
-          <CheckBox
-            value={isSelected}
-            onValueChange={setSelection}
+          <Checkbox
+            status={isSelected}
+            onPress={() => isSelected == 'checked' ? setSelection('unchecked') : setSelection('checked')}
             style={appStyle(themeMode).checkbox}
-          ></CheckBox>
+          ></Checkbox>
           <Text variant="labelSmall">
             <Text style={appStyle(themeMode).font14Normal}>I have read and understood the </Text>
-            <Text style={appStyle(themeMode).font14BoldUnderline}>Terms of Use </Text>
+            <Pressable onPress={() => props.navigation.navigate("ResetPwd")}><Text style={appStyle(themeMode).font14BoldUnderline}>Terms of Use</Text></Pressable>
             <Text style={appStyle(themeMode).font14Normal}>and </Text>
-            <Text style={appStyle(themeMode).font14BoldUnderline}>Privacy Statement</Text>
+            <Pressable onPress={() => props.navigation.navigate("ResetPwd")}><Text style={appStyle(themeMode).font14BoldUnderline}>Privacy Statement</Text></Pressable>
           </Text>
         </Box>
         <Button
@@ -122,7 +153,6 @@ const LoginPage: React.FC<Props> = (props) => {
           <Pressable onPress={() => props.navigation.navigate("ResetPwd")}>
             <Text style={appStyle(themeMode).font16BoldUnderline}>Reset Password</Text>
           </Pressable>
-
         </Text>
       </Box>
       <Box mt={40} mr={32} ml={32} mb={64} style={{ gap: 12 }}>
@@ -159,7 +189,7 @@ const LoginPage: React.FC<Props> = (props) => {
           </Box>
         </Pressable>
       </Box>
-    </Box>
+    </ScrollView>
   );
 }
 

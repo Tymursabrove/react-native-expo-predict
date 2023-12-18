@@ -26,28 +26,30 @@ const FirstPlace = () => {
   //   //   }
   //   // }, 0.1);
   // })
-  setTimeout(() => { navigation.navigate("LogIn") }, 2000);
+  setTimeout(() => { navigation.navigate("LogIn") }, 1500);
   return (
-    <View>
-      <Box mt={418}>
-        <Image
-          style={{
-            width: 334.75,
-            height: 57.5914,
-            margin: "auto"
-          }}
-          source={require("@src/assets/svg/new/logo.svg")}
-        />
+    <Box>
+      <Box style={{ display: "flex", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <Box m="auto">
+          <Image
+            style={{
+              width: 334.75,
+              height: 57.5914,
+              margin: "auto"
+            }}
+            source={require("@src/assets/svg/new/logo.png")}
+          />
+        </Box>
+        <Box mt={32}>
+          <ProgressBar progress={1} color="#141414" style={{
+            margin: "auto",
+            width: 227,
+            height: 6,
+            borderRadius: 10
+          }} />
+        </Box>
       </Box>
-      <Box mt={32}>
-        <ProgressBar progress={1} color="#141414" style={{
-          margin: "auto",
-          width: 227,
-          height: 6,
-          borderRadius: 10
-        }} />
-      </Box>
-    </View >
+    </Box>
   );
 };
 

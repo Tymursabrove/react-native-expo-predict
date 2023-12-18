@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@react-native-material/core";
 import { Badge, Icon, Text, TextInput, Avatar } from "react-native-paper";
-import { Image, Pressable } from "react-native"
+import { Image, Pressable, ScrollView } from "react-native"
 import appStyle from "../../style";
 import SwitchToggle from 'react-native-switch-toggle';
 import { ProfileProps } from '../types';
@@ -46,7 +46,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
   }
 
   return (
-    <Box style={appStyle(themeMode).globalBackground}>
+    <ScrollView style={appStyle(themeMode).globalBackground}>
       <Box mt={124} ml={32} mr={32} mb={120}>
         <Box style={{
           display: "flex",
@@ -59,8 +59,8 @@ const Profile: React.FC<ProfileProps> = (props) => {
               backgroundColor: props.themeMode == 'light' ? "#E7E7E7" : "#232627"
             }} />
             {props.themeMode == "light" ?
-              <Image source={require("@src/assets/svg/new/avatar_reload.svg")} style={{ width: 24, height: 24, position: "absolute", right: 0, bottom: 0 }}></Image> :
-              <Image source={require("@src/assets/svg/new/avatar_reload_black.svg")} style={{ width: 24, height: 24, position: "absolute", right: 0, bottom: 0 }}></Image>
+              <Image source={require("@src/assets/svg/new/avatar_reload.png")} style={{ width: 24, height: 24, position: "absolute", right: 0, bottom: 0 }}></Image> :
+              <Image source={require("@src/assets/svg/new/avatar_reload_black.png")} style={{ width: 24, height: 24, position: "absolute", right: 0, bottom: 0 }}></Image>
             }
           </Box>
           <Text style={{
@@ -77,8 +77,8 @@ const Profile: React.FC<ProfileProps> = (props) => {
             width: 18,
             height: 18,
             marginLeft: 9.94
-          }}>{props.themeMode == "light" ? <Image source={require("@src/assets/svg/new/edit2_white.svg")} style={{ width: 18, height: 18 }}>
-          </Image> : <Image source={require("@src/assets/svg/new/edit2_black.svg")} style={{ width: 18, height: 18 }}>
+          }}>{props.themeMode == "light" ? <Image source={require("@src/assets/svg/new/edit2_white.png")} style={{ width: 18, height: 18 }}>
+          </Image> : <Image source={require("@src/assets/svg/new/edit2_black.png")} style={{ width: 18, height: 18 }}>
           </Image>}
           </Box>
 
@@ -96,7 +96,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
             style={appStyle(themeMode).textInput}
             outlineStyle={{ borderColor: props.themeMode === "light" ? "rgba(20, 20, 20, 0.3)" : "rgba(231, 231, 231, 0.3)", borderRadius: 8 }}
             textColor={props.themeMode === "light" ? "rgba(20, 20, 20, 0.3)" : "rgba(231, 231, 231, 0.3)"}
-            right={<TextInput.Icon icon={require("@src/assets/svg/new/email.svg")} size={20} color="#434343" />}></TextInput>
+            right={<TextInput.Icon icon={require("@src/assets/svg/new/email.png")} size={20} color="#434343" />}></TextInput>
           <TextInput
             mode="outlined"
             label={<Text style={appStyle(themeMode).textInputLabelOfEmail}>Phone Number</Text>}
@@ -105,7 +105,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
             style={appStyle(themeMode).textInput}
             outlineStyle={{ borderColor: props.themeMode === "light" ? "rgba(20, 20, 20, 0.3)" : "rgba(231, 231, 231, 0.3)", borderRadius: 8 }}
             textColor={props.themeMode === "light" ? "rgba(20, 20, 20, 0.3)" : "rgba(231, 231, 231, 0.3)"}
-            right={<TextInput.Icon icon={require("@src/assets/svg/new/phone.svg")} size={20} color="#434343" />}></TextInput>
+            right={<TextInput.Icon icon={require("@src/assets/svg/new/phone.png")} size={20} color="#434343" />}></TextInput>
           <Pressable onPress={() => navigation.navigate("ResetPwd")}>
             <TextInput
               style={appStyle(themeMode).textInput}
@@ -115,7 +115,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
               outlineStyle={{ borderRadius: 8 }}
               textColor={props.themeMode === "light" ? "#141414" : "white"}
               outlineColor={props.themeMode === "light" ? "#F4F4F4" : "#1D1F21"}
-              right={<TextInput.Icon icon={require("@src/assets/svg/new/lock.svg")} size={20} color={props.themeMode == "light" ? "black" : "white"} />}></TextInput>
+              right={<TextInput.Icon icon={require("@src/assets/svg/new/lock.png")} size={20} color={props.themeMode == "light" ? "black" : "white"} />}></TextInput>
           </Pressable>
           <Pressable onPress={() => navigation.navigate("EventPage")}>
             <TextInput
@@ -126,7 +126,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
               outlineStyle={{ borderRadius: 8 }}
               textColor={props.themeMode === "light" ? "#141414" : "white"}
               outlineColor={props.themeMode === "light" ? "#F4F4F4" : "#1D1F21"}
-              right={<TextInput.Icon icon={require("@src/assets/svg/new/bell_white.svg")} size={20} color={props.themeMode == "light" ? "black" : "white"} />}></TextInput>
+              right={<TextInput.Icon icon={require("@src/assets/svg/new/bell_white.png")} size={20} color={props.themeMode == "light" ? "black" : "white"} />}></TextInput>
           </Pressable>
 
           <Box style={{
@@ -205,7 +205,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
           </Box>
           <Pressable onPress={logOut}>
             <Box style={{
-              border: "solid 1px",
+              borderWidth: 1,
               borderColor: "#FE2828",
               borderRadius: 8,
               height: 60,
@@ -221,13 +221,13 @@ const Profile: React.FC<ProfileProps> = (props) => {
                 fontSize: 16,
                 fontFamily: 'Visby CF',
                 fontWeight: '700',
-                lineHeight: 60
+                lineHeight: 16
               }}>Log out</Text>
             </Box>
           </Pressable>
           <Box style={{
-            display: "relative",
-            border: "solid 1px",
+            position: "relative",
+            borderWidth: 1,
             borderColor: props.themeMode == "light" ? "rgba(20, 20, 20, 0.30)" : "rgba(231, 231, 231, 0.30)",
             borderRadius: 8
           }}>
@@ -258,7 +258,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
           </Box>
         </Box>
       </Box >
-    </Box >
+    </ScrollView>
 
   )
 }

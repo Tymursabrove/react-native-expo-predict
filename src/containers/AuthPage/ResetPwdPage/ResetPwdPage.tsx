@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import appStyle from "../../style";
 import { Box, Text } from "@react-native-material/core";
 import { TextInput, Button, Icon } from "react-native-paper";
-import { Image, Pressable } from "react-native";
+import { Image, Pressable, BackHandler } from "react-native";
 
 import { Props } from "./types";
 import { connect } from "react-redux";
@@ -23,30 +23,45 @@ const ResetPwdPage: React.FC<Props> = (props) => {
   const returnToLogin = () => {
     navigation.navigate("LogIn")
   }
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack()
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+      backHandler.remove();
+    }
+  }, [])
   return (
     <Box style={appStyle(themeMode).globalBackground}>
-      <Box>
+      <Box mt={100} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {themeMode === "light" ?
           (<Image
             style={appStyle(themeMode).logo}
-            source={require("@src/assets/svg/new/logo.svg")}
+            source={require("@src/assets/svg/new/logo.png")}
           />) :
           (<Image
             style={appStyle(themeMode).logo}
-            source={require("@src/assets/svg/new/logo_dark.svg")}
+            source={require("@src/assets/svg/new/logo_dark.png")}
           />)}
       </Box>
       <Box mt={169.59}>
         <Text style={appStyle(themeMode).title}>Forgot your password?
         </Text>
-        <Text style={appStyle(themeMode).subtitle} >To reset your password enter the email<br />address you use to sign in to the GoPredict
+        <Text style={appStyle(themeMode).subtitle} >To reset your password enter the email{"\n"} address you use to sign in to the GoPredict
         </Text>
       </Box>
       <Box m={32}>
         <TextInput
           label={<Text style={appStyle(themeMode).textInputLabelOfPassword}>Email address</Text>}
           mode="outlined"
-          placeholder="example@gmail.com"
           textColor={themeMode === "light" ? "#141414" : "#E7E7E7"}
           outlineStyle={{ borderColor: themeMode === "light" ? "#141414" : "#E7E7E7", borderRadius: 8 }}
           onChangeText={text => { setEmail(text) }}

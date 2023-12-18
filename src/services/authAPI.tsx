@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 const lscache = require("lscache");
 import { AUTH_TOKEN } from "@src/controllers/Users/constants";
 
@@ -16,7 +17,10 @@ const authAxios = axios.create({
 
 authAxios.interceptors.request.use(
   async (config) => {
-    const authToken = lscache.get(AUTH_TOKEN)
+    //const authToken = lscache.get(AUTH_TOKEN)
+    var authToken = await SecureStore.getItemAsync(AUTH_TOKEN);
+    //const authToken = 
+    console.log("interrupt", authToken);
     config.headers["Authorization"] = "Bearer " + authToken;
     return config;
   },
