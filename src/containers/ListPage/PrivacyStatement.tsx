@@ -98,7 +98,7 @@ const PrivacyStatement: React.FC<PrivacyProps> = (props) => {
               Cookies and Tracking Technologies:
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              NEXDAY employs both temporary and permanent cookies to enhance the User experience of our Services. Temporary cookies are deleted upon closing the browser, while selecting the 'Stay logged in' option will store a permanent cookie on your computer for quicker access to our Services. This option also allows NEXDAY to maintain and recall individual User preferences.{"\n"}{"\n"}
+              NEXDAY employs both temporary and permanent cookies to enhance the User experience of our Services. Temporary cookies are deleted upon closing the browser, while selecting the 'Stay logged in' option will store a permanent cookie on your computer for quicker access to our Services. This option also allows NEXDAY to maintain and recall individual User preferences.{"\n"}
               {"\n"}Technologies like cookies, web beacons, tags, and scripts may be used by NEXDAY or our service providers for analytical purposes, site administration, tracking usage, and gathering demographic information about our user base. We may receive reports from these technologies on both an individual and aggregate basis.{"\n"}{"\n"}
             </Text>
           </Box>

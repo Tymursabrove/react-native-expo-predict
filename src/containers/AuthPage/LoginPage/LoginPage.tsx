@@ -17,7 +17,7 @@ import { loginRequest } from "@src/state/Auth/Actions";
 const LoginPage: React.FC<Props> = (props) => {
   const { loading, error, requestLogin, themeMode } = props;
   const [pwdVisible, setPwdVisible] = useState(false);
-  const [isSelected, setSelection] = useState('unchecked');
+  const [isSelected, setSelection] = useState('checked');
   const img = require('../../../assets/svg/new/logo.png');
   const img_dark = require('../../../assets/svg/new/logo_dark.png');
   //Payload
@@ -37,8 +37,14 @@ const LoginPage: React.FC<Props> = (props) => {
       props.navigation.navigate("MainPage")
     }
     if (loading == "2") {
+      Alert.alert('Hold on!', 'Login Failded. Please try again.' + error, [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+      ]);
       console.log("+++LogIn failed", error);
-      //props.navigation.navigate("MainPage")
     }
   }, [loading])
 
@@ -119,7 +125,7 @@ const LoginPage: React.FC<Props> = (props) => {
           textColor={themeMode === "light" ? "#141414" : "#E7E7E7"}
 
         />
-        <Box mt={20} style={{
+        <Box mt={20} mr={32} style={{
           display: "flex",
           flexDirection: "row",
           gap: 12,
@@ -132,12 +138,13 @@ const LoginPage: React.FC<Props> = (props) => {
           ></Checkbox>
           <Text variant="labelSmall">
             <Text style={appStyle(themeMode).font14Normal}>I have read and understood the </Text>
-            <Pressable onPress={() => props.navigation.navigate("ResetPwd")}><Text style={appStyle(themeMode).font14BoldUnderline}>Terms of Use</Text></Pressable>
-            <Text style={appStyle(themeMode).font14Normal}>and </Text>
+            <Pressable onPress={() => props.navigation.navigate("ResetPwd")}><Text style={appStyle(themeMode).font14BoldUnderline}>Terms of Use </Text></Pressable>
+            <Text style={appStyle(themeMode).font14Normal}> and </Text>
             <Pressable onPress={() => props.navigation.navigate("ResetPwd")}><Text style={appStyle(themeMode).font14BoldUnderline}>Privacy Statement</Text></Pressable>
           </Text>
         </Box>
         <Button
+          disabled={isSelected == "unchecked" ? true : false}
           style={{ marginTop: 20 }}
           buttonColor="#3CD981"
           mode="contained"

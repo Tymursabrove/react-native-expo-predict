@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "owner": "great-mobile",
+    "owner": "devmonster",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -26,7 +26,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a259e8fb-064f-4ab4-9c6a-78daa95bd464"
+        "projectId": "5611f368-f8e9-4fe7-8d8c-89e926d0e082"
       }
     }
   }

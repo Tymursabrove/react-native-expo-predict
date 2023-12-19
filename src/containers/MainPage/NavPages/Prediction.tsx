@@ -11,12 +11,35 @@ import Forex from "../TabPages/Forex";
 import Futures from "../TabPages/Futures";
 import Hot from "../TabPages/Hot";
 
+const CustomImageComponent: React.FC<{ imageName: String }> = (props) => {
+  const { imageName } = props;
+  switch (imageName) {
+    case "Platinum": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Platinum.png")}></Image>
+    case "Coffee": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/coffee.png")}></Image>
+    case "Cocoa": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Cocoa.png")}></Image>
+    case "Natural Gas":
+    case "E-Mini Natural Gas": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Natural_Gas.png")}></Image>
+    case "Gold":
+    case "MINY Gold": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Natural_Gas.png")}></Image>
+    case "Cotton N.2": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/cotton.png")}></Image>
+    case "Rough Rice": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/rice.png")}></Image>
+    case "HRW Wheat":
+    case "Mini Wheat":
+      return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/wheat.png")}></Image>
+    case "Heating Oil": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Heating_Oil.png")}></Image>
+    case "MINY Silver": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/silver.png")}></Image>
+    case "Sugar N.11": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/silver.png")}></Image>
+    case "Palladium": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/silver.png")}></Image>
+    default: return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/money.png")}></Image>
+  }
+}
+
 const Predictions: React.FC<PredictionProps> = (props) => {
   const { themeMode, date, username, tableData, chartVisibility } = props;
   const pacificDate = new Date();
   const [tabIndex, setTabIndex] = useState(0);
   const { width, height } = Dimensions.get("window");
-
+  var imageSrc = "Cattle_Feeder.png"
   let tableHeight = height - 578;
   let arrayData = [];
   if (tableData.data) {
@@ -158,9 +181,7 @@ const Predictions: React.FC<PredictionProps> = (props) => {
                   <DataTable.Cell style={appStyle(themeMode).columnSeparatorBody}>
                     <Box style={{ display: "flex", flexDirection: "row", gap: 3.5 }}>
                       <Box>
-                        <Image style={{
-                          width: 32, height: 32
-                        }} source={require("@src/assets/svg/new/Cattle_Feeder.png")}></Image>
+                        <CustomImageComponent imageName={item.name}></CustomImageComponent>
                       </Box>
                       <Box>
                         <Text style={appStyle(themeMode).symbolName}>{item.name}</Text>

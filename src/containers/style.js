@@ -118,8 +118,8 @@ export default appStyle = (themeMode) => StyleSheet.create({
   },
   checkbox: {
     borderRadius: 4,
-    width: 20,
-    height: 20
+    width: 100,
+    height: 100
   },
   columnSeparatorHeader: {
     borderColor: themeMode == "light" ? "#DDDBDB" : "#1D1F21",
@@ -148,7 +148,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: 80
+    width: 40
   },
   navbarText: {
     color: themeMode == "light" ? "#141414" : "#E7E7E7",
