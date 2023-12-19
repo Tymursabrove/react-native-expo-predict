@@ -1,4 +1,4 @@
-package com.android.gopredic;
+package com.android.gopredict;
 import expo.modules.ReactActivityDelegateWrapper;
 
 import android.os.Build;

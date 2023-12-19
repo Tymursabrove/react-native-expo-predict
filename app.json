@@ -12,14 +12,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.android.gopredic"
+      "bundleIdentifier": "com.android.gopredict"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.android.gopredic"
+      "package": "com.android.gopredict"
     },
     "web": {
       "favicon": "./assets/favicon.png"

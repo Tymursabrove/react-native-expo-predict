@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.android.gopredic'
+    namespace 'com.android.gopredict'
     defaultConfig {
-        applicationId 'com.android.gopredic'
+        applicationId 'com.android.gopredict'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
