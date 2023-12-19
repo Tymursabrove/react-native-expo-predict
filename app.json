@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "gopredict",
-    "slug": "gopredict",
+    "name": "GoPredict",
+    "slug": "GoPredict",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,14 +12,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.android.reactnative"
+      "bundleIdentifier": "com.android.gopredic"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.android.reactnative"
+      "package": "com.android.gopredic"
     },
     "web": {
       "favicon": "./assets/favicon.png"

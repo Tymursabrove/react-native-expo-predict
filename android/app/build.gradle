@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.native.rotobot'
+    namespace 'com.android.gopredic'
     defaultConfig {
-        applicationId 'com.native.rotobot'
+        applicationId 'com.android.gopredic'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
