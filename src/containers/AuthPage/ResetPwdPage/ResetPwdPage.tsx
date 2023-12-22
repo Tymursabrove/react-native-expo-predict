@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import appStyle from "../../style";
 import { Box, Text } from "@react-native-material/core";
 import { TextInput, Button, Icon } from "react-native-paper";
-import { Image, Pressable, BackHandler } from "react-native";
+import { Image, Pressable, BackHandler, Platform } from "react-native";
+import * as secureStore from 'expo-secure-store';
 
 import { Props } from "./types";
 import { connect } from "react-redux";
+import { DELETE_DATA } from "@src/state/Auth/Constants";
+import { AUTH_TOKEN } from "@src/controllers/Users/constants";
+const lscache = require("lscache");
 
 const ResetPwdPage: React.FC<Props> = (props) => {
-  const { navigation, themeMode } = props;
+  const { navigation, themeMode, deleteData } = props;
   const [email, setEmail] = useState("");
 
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +25,7 @@ const ResetPwdPage: React.FC<Props> = (props) => {
   }
 
   const returnToLogin = () => {
+    deleteData();
     navigation.navigate("LogIn")
   }
 
@@ -39,6 +44,16 @@ const ResetPwdPage: React.FC<Props> = (props) => {
       backHandler.remove();
     }
   }, [])
+
+  const logOut = () => {
+    if (Platform.OS !== 'web') secureStore.deleteItemAsync(AUTH_TOKEN)
+    else {
+      lscache.remove(AUTH_TOKEN);
+    }
+    navigation.navigate("LogIn");
+    deleteData();
+  }
+
   return (
     <Box style={appStyle(themeMode).globalBackground}>
       <Box mt={100} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -113,7 +128,8 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    changeTheme: (changedThemeStatus: any) => dispatch({ type: "CHANGE_THEME", payload: changedThemeStatus })
+    changeTheme: (changedThemeStatus: any) => dispatch({ type: "CHANGE_THEME", payload: changedThemeStatus }),
+    deleteData: () => dispatch({ type: DELETE_DATA })
   }
 }
 

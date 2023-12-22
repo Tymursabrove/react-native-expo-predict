@@ -4,5 +4,6 @@ export type Props = {
   loading: boolean;
   error: any;
   requestLogin: Function;
-  themeMode: string
+  themeMode: string;
+  deleteData: Function;
 };

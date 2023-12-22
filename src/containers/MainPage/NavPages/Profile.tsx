@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@react-native-material/core";
+import { Box, Flex } from "@react-native-material/core";
 import { Badge, Icon, Text, TextInput, Avatar } from "react-native-paper";
-import { Image, Pressable, ScrollView } from "react-native"
+import { Image, Pressable, ScrollView, Dimensions, Platform } from "react-native"
 import appStyle from "../../style";
 import SwitchToggle from 'react-native-switch-toggle';
 import { ProfileProps } from '../types';
@@ -14,9 +14,19 @@ import { AUTH_TOKEN } from "@src/controllers/Users/constants";
 import { DELETE_DATA } from "@src/state/Auth/Constants";
 import { getChangeChartVisible } from "@src/state/Auth/Actions";
 import * as secureStore from "expo-secure-store"
+import { getViewportUnits } from "@src/utils/viewportVariable";
 const lscache = require("lscache");
 
 const Profile: React.FC<ProfileProps> = (props) => {
+  const { width, height } = Dimensions.get("window");
+
+  const units = getViewportUnits();
+  const textInputHeight = 60 / 932 * height;
+  const customLineHeight = textInputHeight - 10;
+  const iosTop = height * 124 / 932;
+  const androidTop = iosTop + 80;
+  const bottom = height * 144 / 932;
+  const high = height * 664 / 932;
   const navigation: NativeStackNavigationProp<RootStackParamList> =
     useNavigation();
   const { themeMode, changeTheme, changeChartVisible, chartVisibility, username, userData, deleteData, logout } = props;
@@ -39,16 +49,18 @@ const Profile: React.FC<ProfileProps> = (props) => {
 
 
   const logOut = () => {
-    //lscache.delete(AUTH_TOKEN);
-    secureStore.deleteItemAsync(AUTH_TOKEN);
-    deleteData();
+    if (Platform.OS !== 'web') secureStore.deleteItemAsync(AUTH_TOKEN)
+    else {
+      lscache.remove(AUTH_TOKEN);
+    }
     navigation.navigate("LogIn");
+    deleteData();
   }
 
   return (
-    <ScrollView style={appStyle(themeMode).globalBackground}>
-      <Box mt={124} ml={32} mr={32} mb={120}>
-        <Box style={{
+    <Box style={appStyle(themeMode).globalBackground}>
+      <Box mt={Platform.OS == 'ios' ? iosTop : androidTop} ml={32} mr={32} mb={bottom} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: high, minWidth: 330 }} >
+        <Box id="name_section" style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "flex-start",
@@ -83,10 +95,11 @@ const Profile: React.FC<ProfileProps> = (props) => {
           </Box>
 
         </Box>
-        <Box mt={32} id="form-section" style={{
+        <Box id="form-section" style={{
           display: "flex",
           flexDirection: "column",
-          gap: 20
+          //justifyContent: "space-between"
+          gap: 20 / 932 * height
         }}>
           <TextInput
             mode="outlined"
@@ -128,24 +141,21 @@ const Profile: React.FC<ProfileProps> = (props) => {
               outlineColor={props.themeMode === "light" ? "#F4F4F4" : "#1D1F21"}
               right={<TextInput.Icon icon={require("@src/assets/svg/new/bell_white.png")} size={20} color={props.themeMode == "light" ? "black" : "white"} />}></TextInput>
           </Pressable>
-
-          <Box style={{
+          <Box id="toggle_section" style={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            gap: 12,
-            width: "100%"
+            width: "100%",
+            height: textInputHeight
           }}>
             <Box style={{
-              width: 177,
-              height: 60,
+              width: 177 / 430 * width,
+              height: textInputHeight,
               borderRadius: 8,
-              backgroundColor: "white",
               alignContent: "center",
-              backgroundColor: props.themeMode == "light" ? "#FFFCFC" : "#232627",
-              flexShrink: 2
+              backgroundColor: themeMode == "light" ? "#FFFCFC" : "#232627"
             }}>
-              <Box m={20} style={{ display: "flex", flexDirection: "row", gap: 10, justifyContent: "center", alignItems: "center" }}>
+              <Box m={20} style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <Text style={appStyle(themeMode).font16Normal}>Hide</Text>
                 <SwitchToggle
                   switchOn={isEnabledChart}
@@ -161,24 +171,22 @@ const Profile: React.FC<ProfileProps> = (props) => {
               </Box>
               <Text style={{
                 position: "absolute",
-                top: -6,
+                top: -6 / 932 * height,
                 left: 20,
                 color: themeMode == "light" ? '#616264' : '#b1b1b1',
                 fontSize: 12,
                 fontFamily: 'Visby CF',
                 fontWeight: '500'
-              }}>Chart</Text>
+              }}>App theme</Text>
             </Box>
             <Box style={{
-              width: 177,
-              height: 60,
+              width: 177 / 430 * width,
+              height: textInputHeight,
               borderRadius: 8,
-              backgroundColor: "white",
               alignContent: "center",
-              backgroundColor: themeMode == "light" ? "#FFFCFC" : "#232627",
-              flexShrink: 2
+              backgroundColor: themeMode == "light" ? "#FFFCFC" : "#232627"
             }}>
-              <Box m={20} style={{ display: "flex", flexDirection: "row", gap: 10, justifyContent: "center", alignItems: "center" }}>
+              <Box m={20} style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <Text style={appStyle(themeMode).font16Normal}>Light</Text>
                 <SwitchToggle
                   switchOn={isEnabledTheme}
@@ -194,7 +202,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
               </Box>
               <Text style={{
                 position: "absolute",
-                top: -6,
+                top: -6 / 932 * height,
                 left: 20,
                 color: themeMode == "light" ? '#616264' : '#b1b1b1',
                 fontSize: 12,
@@ -203,12 +211,14 @@ const Profile: React.FC<ProfileProps> = (props) => {
               }}>App theme</Text>
             </Box>
           </Box>
+        </Box>
+        <Box id="contact" style={{ display: "flex", flexDirection: "column", gap: 20 / 932 * height }}>
           <Pressable onPress={logOut}>
             <Box style={{
               borderWidth: 1,
               borderColor: "#FE2828",
               borderRadius: 8,
-              height: 60,
+              height: textInputHeight,
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
@@ -226,22 +236,29 @@ const Profile: React.FC<ProfileProps> = (props) => {
             </Box>
           </Pressable>
           <Box style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
             position: "relative",
             borderWidth: 1,
             borderColor: props.themeMode == "light" ? "rgba(20, 20, 20, 0.30)" : "rgba(231, 231, 231, 0.30)",
-            borderRadius: 8
+            borderRadius: 8,
+            height: textInputHeight
           }}>
-            <Text style={{// Log out
-              color: props.themeMode == "light" ? "rgba(20, 20, 20, 0.30)" : "rgba(231, 231, 231, 0.30)",
-              fontSize: 16,
-              fontFamily: 'Visby CF',
-              fontWeight: '700',
-              lineHeight: 60,
-              textAlign: "center"
-            }}>gopredict@nexday.ai</Text>
+            <Box>
+              <Text style={{// Log out
+                color: props.themeMode == "light" ? "rgba(20, 20, 20, 0.30)" : "rgba(231, 231, 231, 0.30)",
+                fontSize: 16,
+                fontFamily: 'Visby CF',
+                fontWeight: '700',
+                textAlign: "center",
+                lineHeight: customLineHeight
+              }}>gopredict@nexday.ai</Text>
+            </Box>
             <Box style={{
               position: "absolute",
-              top: -6,
+              top: -11,
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
@@ -258,7 +275,8 @@ const Profile: React.FC<ProfileProps> = (props) => {
           </Box>
         </Box>
       </Box >
-    </ScrollView>
+    </Box>
+
 
   )
 }

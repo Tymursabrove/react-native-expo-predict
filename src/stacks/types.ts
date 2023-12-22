@@ -1,26 +1,15 @@
 export type RootStackParamList = {
   Splash: undefined;
   Welcome: undefined;
-  LogIn: {navigation: any; loginReuest: Function;};
+  LogIn: { navigation: any; loginReuest: Function; };
   SignUp: undefined;
   SignupComplete: { email: string };
-  SignupCode: undefined;
   ResetPwd: undefined;
-  CodeVerify: undefined;
-  NewPwd: undefined;
-  ChatHome: undefined;
-  Account: undefined;
-  PersonalInfo: undefined;
-  PurchaseCredit: undefined;
-  Settings: undefined;
-  HelpCenter: undefined;
-  AboutRotoBotAI: undefined;
-  PrivacyPolicy: undefined;
-  ChatBot: { userId: string };
-  Logout: undefined;
-  EarnCredit: undefined;
-  AddNewpayment: undefined;
-  ReviewSummary: undefined;
-  ChatHistory: undefined;
-  HistorySearch: undefined;
+  MainPage: undefined;
+  MailVerify: undefined;
+  TermsOfUser: undefined;
+  PrivacyStatement: undefined;
+  FirstPlage: undefined,
+  EventPage: undefined
+
 };

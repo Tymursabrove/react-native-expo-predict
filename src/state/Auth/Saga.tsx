@@ -2,6 +2,7 @@ import { call, put, takeLatest, takeEvery, all } from "redux-saga/effects";
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED, GET_TABLE_DATA, GET_USERNAME, DELETE_DATA } from "../Auth/Constants";
 import authAPI from "@src/services/authAPI";
 import { getTableData, getUserdataSuccess, getTabledataSuccess, loginError, loginSuccess, logoutSuccess } from "./Actions";
+import { Platform } from "react-native";
 const lscache = require("lscache");
 
 import * as SecureStore from "expo-secure-store";
@@ -14,16 +15,15 @@ const setSecureStore = async (title: string, value: any) => {
 
 function* loginAction(action: any): Generator<any> {
   const { pathname, data } = action.payload;
-  console.log("+++login request came in", pathname, data);
+  console.log("Saga Login request comes in", pathname, data);
   try {
     const item: any = yield authAPI.post(pathname, data, "");
-    setSecureStore(AUTH_TOKEN, item.accessToken);
-    //lscache.set(AUTH_TOKEN, item.accessToken);
-    console.log("+++axious sucess", item)
-    //const item = { accessToken: "accessToken", refreshToken: "refreshToken" };
+    if (Platform.OS !== 'web') setSecureStore(AUTH_TOKEN, item.accessToken);
+    else lscache.set(AUTH_TOKEN, item.accessToken);
+
+    console.log("Saga axous request sucess with this data", item)
     yield put(loginSuccess(item));
-    //const today = "2023-12-08";
-    //yield put(getTableData(today));
+
   } catch (error: any) {
     yield put(loginError(error.message));
   }
@@ -38,7 +38,7 @@ function* getUsernameFromDatabase(action: any): Generator<any> {
     const standard = today.toISOString().split("T")[0];
     console.log("standard", standard);
     try {
-      const tableData: any = yield authAPI.get("/instrument/day-details", { query: { date: "2023-12-08" } })
+      const tableData: any = yield authAPI.get("/instrument/day-details", { query: { date: standard } })
       console.log("+++tableData", tableData);
       yield put(getTabledataSuccess(tableData));
     } catch (error: any) {

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@react-native-material/core";
-import { Image, Pressable, Dimensions, ScrollView } from "react-native"
+import { Image, Pressable, Dimensions, ScrollView, Platform } from "react-native"
 import { Badge, DataTable, Icon, Text, Avatar } from "react-native-paper";
 import { connect } from "react-redux";
 import appStyle from "../../style";
@@ -12,25 +12,94 @@ import Futures from "../TabPages/Futures";
 import Hot from "../TabPages/Hot";
 import { getTableData } from "@src/state/Auth/Actions";
 
+const CustomImageComponent: React.FC<{ imageName: String }> = (props) => {
+  const { imageName } = props;
+  switch (imageName) {
+    case "Platinum": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Platinum.png")}></Image>
+    case "Coffee": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/coffee.png")}></Image>
+    case "Cocoa": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Cocoa.png")}></Image>
+    case "Natural Gas":
+    case "E-Mini Natural Gas": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Natural_Gas.png")}></Image>
+    case "Gold":
+    case "MINY Gold": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Natural_Gas.png")}></Image>
+    case "Cotton N.2": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/cotton.png")}></Image>
+    case "Rough Rice": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/rice.png")}></Image>
+    case "HRW Wheat":
+    case "Mini Wheat":
+      return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/wheat.png")}></Image>
+    case "Heating Oil": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/Heating_Oil.png")}></Image>
+    case "MINY Silver": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/silver.png")}></Image>
+    case "Sugar N.11": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/silver.png")}></Image>
+    case "Palladium": return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/silver.png")}></Image>
+    default: return <Image style={{ width: 32, height: 32 }} source={require("@src/assets/svg/new/money.png")}></Image>
+  }
+}
+
 const Tradebook: React.FC<PredictionProps> = (props) => {
   const { themeMode, username, tableData, chartVisibility } = props;
   const [tabIndex, setTabIndex] = useState(0);
   const { width, height } = Dimensions.get("window");
 
-  let tableHeight = height - 578;
+  const [localTableData, setLocalTableData] = useState([]);
+  const [localTableData1, setLocalTableData1] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  let tableHeight = height - 360;
+  let iostableHeight = height - 290;
   let initialism = username.split(" ")[0].substring(0, 1) + username.split(" ")[1].substring(0, 1)
 
-  let arrayData = [];
-  if (tableData.data) {
-    tableData.data.forEach((row: any, index: number) => {
-      let item = { name: row.name, date: row.sessionEnd.split("T")[0], symbol: row.symbol, side: row.tradeSide, entry: row.entryPrice, tp: row.takeProfit };
-      arrayData.push(item);
-    })
+  let arrayData: [] = [];
+
+  useEffect(() => {
+    if (tableData.data) {
+      tableData.data.forEach((row: any, index: number) => {
+        row.entryPrice = row.entryPrice.toString();
+        row.takeProfit = row.takeProfit.toString();
+        let entryPrice = "";
+        let takeProfit = "";
+        if (row.entryPrice.length > 6) {
+          entryPrice = row.entryPrice.substring(0, 6) + "..."
+        } else entryPrice = row.entryPrice;
+        if (row.takeProfit.length > 6) {
+          takeProfit = row.takeProfit.substring(0, 6) + "..."
+        } else takeProfit = row.takeProfit;
+        let item = { name: row.name, date: row.sessionEnd.split("T")[0], symbol: row.symbol, side: row.tradeSide, entry: entryPrice, tp: takeProfit, bto: row.bto, securityType: row.securityType };
+        arrayData.push(item);
+        if (tableData.data.length === index + 1) {
+          makeData();
+        }
+      })
+    }
+  }, [tableData])
+
+  const makeData = () => {
+    setLocalTableData(arrayData);
+    setLocalTableData1(arrayData);
+    setIsLoading(false);
   }
+  useEffect(() => {
+    if (tabIndex == 0) {
+      setLocalTableData(localTableData1)
+      console.log("-1", localTableData1)
+    }
+    if (tabIndex == 1) {
+      console.log("1", localTableData1.filter(item => item['securityType'] == 'FOREX'))
+      setLocalTableData(localTableData1.filter(item => item['securityType'] == 'FOREX'));
+    }
+    if (tabIndex == 2) {
+      console.log("2", localTableData1.filter(item => item['securityType'] == 'FUTURE'))
+      setLocalTableData(localTableData1.filter(item => item['securityType'] == 'FUTURE'));
+    }
+    if (tabIndex == 3) {
+      console.log("3", localTableData1.filter(item => item['bto'] !== 0))
+      setLocalTableData(localTableData1.filter(item => item['bto'] !== 0));
+    }
+  }, [tabIndex]);
+
 
   return (
     <Box style={appStyle(themeMode).globalBackground}>
-      <Box mt={59} ml={20} mr={20}>
+      <Box mt={59} ml={20} mr={20} style={{ minWidth: 330, minHeight: 820 }}>
         <Box style={{
           display: "flex",
           flexDirection: "row",
@@ -72,7 +141,7 @@ const Tradebook: React.FC<PredictionProps> = (props) => {
           </Box>
 
         </Box>
-        <Box mt={22} id="tab">
+        <Box mt={Platform.OS == 'ios' ? 22 : 120} id="tab">
           <Box style={{
             display: "flex",
             flexDirection: "row",
@@ -111,45 +180,55 @@ const Tradebook: React.FC<PredictionProps> = (props) => {
               }}>Futures</Text>
             </Pressable>
             <Pressable onPress={() => setTabIndex(3)}>
-              <Text style={{
-                fontSize: 16,
-                borderBottomWidth: tabIndex == 3 ? 2 : 0,
-                borderBottomColor: themeMode == "light" ? "black" : "white",
-                fontFamily: 'Visby CF',
-                fontWeight: tabIndex == 3 ? '600' : '500',
-                color: themeMode == "light" ? tabIndex == 3 ? "black" : "#575757" : tabIndex == 3 ? "white" : "#aaabac"
-              }}>Hot</Text>
+              <Box style
+                ={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}>
+                <Text style={{
+                  fontSize: 16,
+                  borderBottomWidth: tabIndex == 3 ? 2 : 0,
+                  borderBottomColor: themeMode == "light" ? "black" : "white",
+                  fontFamily: 'Visby CF',
+                  fontWeight: tabIndex == 3 ? '600' : '500',
+                  color: themeMode == "light" ? tabIndex == 3 ? "black" : "#575757" : tabIndex == 3 ? "white" : "#aaabac"
+                }}>Hot</Text>
+                <Image source={require('@src/assets/svg/new/fire.png')} style={{ width: 16, height: 16 }}></Image>
+              </Box>
+
             </Pressable>
 
           </Box>
-          {chartVisibility ? <Box mt={14} style={{ height: 271, backgroundColor: "#DDDBDB" }}>
+          {/* {chartVisibility ? <Box mt={14} style={{ height: 271, backgroundColor: "#DDDBDB" }}>
             {tabIndex == 0 ? <All /> : null}
             {tabIndex == 1 ? <Forex /> : null}
             {tabIndex == 2 ? <Futures /> : null}
             {tabIndex == 3 ? <Hot /> : null}
-          </Box> : <Box mt={14} style={{ height: 271 }}></Box>}
+          </Box> : <Box mt={14} style={{ height: 271 }}></Box>} */}
         </Box>
         <Box mt={24} id="instrument table" >
           <DataTable>
             <DataTable.Header
               style={{ backgroundColor: themeMode == "light" ? "#141414" : "#34383C", borderTopLeftRadius: 8, borderTopRightRadius: 8, height: 56, alignItems: "center" }}>
               <DataTable.Title style={appStyle(themeMode).columnSeparatorHeader} textStyle={appStyle(themeMode).tableHeaderText}>Instrument</DataTable.Title>
-              <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>p.High</DataTable.Title>
-              <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>p.Trend</DataTable.Title>
-              <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>p.Low</DataTable.Title>
+              <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>Side</DataTable.Title>
+              <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>Entry</DataTable.Title>
+              <DataTable.Title style={{ justifyContent: "center" }} textStyle={appStyle(themeMode).tableHeaderText}>T.P</DataTable.Title>
             </DataTable.Header>
             <ScrollView style={{ height: tableHeight, overflow: "scroll" }}>
-              {tableData.data ? arrayData.map((item, index) => (
+              {!isLoading && localTableData.map((item, index) => (
                 <DataTable.Row key={index} style={appStyle(themeMode).dataTableRow}>
                   <DataTable.Cell style={appStyle(themeMode).columnSeparatorBody}>
                     <Box style={{ display: "flex", flexDirection: "row", gap: 3.5 }}>
                       <Box>
-                        <Image style={{
-                          width: 32, height: 32
-                        }} source={require("@src/assets/svg/new/Cattle_Feeder.png")}></Image>
+                        <CustomImageComponent imageName={item.name}></CustomImageComponent>
                       </Box>
                       <Box>
-                        <Text style={appStyle(themeMode).symbolName}>{item.name}</Text>
+                        <Box style={{ display: 'flex', flexDirection: 'row' }}>
+                          <Text style={appStyle(themeMode).symbolName}>{item.name}</Text>
+                          {item.bto !== 0 ? <Image source={require('@src/assets/svg/new/fire.png')} style={{ width: 16, height: 16 }}></Image> : null}
+                        </Box>
                         <Text style={appStyle(themeMode).symbolDate}>{item.date}</Text>
                       </Box>
                     </Box>
@@ -160,7 +239,7 @@ const Tradebook: React.FC<PredictionProps> = (props) => {
                   <DataTable.Cell numeric><Text style={appStyle(themeMode).symbolName}>{item.entry}</Text></DataTable.Cell>
                   <DataTable.Cell numeric><Text style={appStyle(themeMode).symbolName}>{item.tp}</Text></DataTable.Cell>
                 </DataTable.Row>
-              )) : null}
+              ))}
             </ScrollView>
           </DataTable>
         </Box>

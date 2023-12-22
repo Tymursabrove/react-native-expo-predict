@@ -23,13 +23,13 @@ const App = () => {
     "Urbanist-Bold": require("@src/assets/font/Urbanist-Bold.ttf"),
     "Urbanist-ExtraBold": require("@src/assets/font/Urbanist-ExtraBold.ttf"),
     "Urbanist-Black": require("@src/assets/font/Urbanist-Black.ttf"),
-    "Visby CF": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-regular.otf'),
-    "Visby CF-Bold": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-bold.otf'),
-    "Visby CF-DemiBold": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-demibold.otf'),
-    "Visby CF-ExtraBold": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-extrabold.otf'),
-    "Visby CF-heavy": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-heavy.otf'),
-    "Visby CF-MEDIUM": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-medium.otf'),
-    "Visby CF-Thin": require('@src/assets/font/visbycf/Fontspring-DEMO-visbycf-thin.otf')
+    "Visby CF": require('@src/assets/font/visbycf/VisbyRegular.otf'),
+    "Visby CF-Bold": require('@src/assets/font/visbycf/VisbyBold.otf'),
+    "Visby CF-DemiBold": require('@src/assets/font/visbycf/VisbySemibold.otf'),
+    "Visby CF-ExtraBold": require('@src/assets/font/visbycf/VisbyExtrabold.otf'),
+    "Visby CF-heavy": require('@src/assets/font/visbycf/VisbyHeavy.otf'),
+    "Visby CF-MEDIUM": require('@src/assets/font/visbycf/VisbyMedium.otf'),
+    "Visby CF-Thin": require('@src/assets/font/visbycf/VisbyThin.otf')
   });
 
   if (!fontsLoaded) {

@@ -1,4 +1,5 @@
 export type Props = {
   navigation: any;
-  themeMode: string
+  themeMode: string;
+  deleteData: Function
 };

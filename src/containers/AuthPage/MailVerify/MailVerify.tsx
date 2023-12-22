@@ -5,7 +5,8 @@ import { TextInput, Text, Button, Icon } from "react-native-paper"
 import {
   Image,
   Pressable,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
 
 import * as SecureStore from "expo-secure-store";
@@ -24,6 +25,12 @@ import {
   useClearByFocusCell
 } from 'react-native-confirmation-code-field';
 
+import { DELETE_DATA } from "@src/state/Auth/Constants";
+import { AUTH_TOKEN } from "@src/controllers/Users/constants";
+import * as secureStore from 'expo-secure-store';
+
+const lscache = require("lscache");
+
 const styles = StyleSheet.create({
   root: { flex: 1, padding: 20 },
   title: { textAlign: 'center', fontSize: 30 },
@@ -39,7 +46,7 @@ const delay = (delayInms: number) => {
 };
 
 const MailVerify: React.FC<Props> = (props) => {
-  const { themeMode } = props;
+  const { themeMode, deleteData } = props;
   const navigation: NativeStackNavigationProp<RootStackParamList> =
     useNavigation();
 
@@ -99,6 +106,15 @@ const MailVerify: React.FC<Props> = (props) => {
     setMessage("");
   }
     , [isPwdFocused, isConfirmPwdFocused])
+
+  const returnToLogin = () => {
+    if (Platform.OS !== 'web') secureStore.deleteItemAsync(AUTH_TOKEN)
+    else {
+      lscache.remove(AUTH_TOKEN);
+    }
+    deleteData();
+    navigation.navigate("LogIn");
+  }
   return (
     <ScrollView style={appStyle(themeMode).globalBackground}>
       <Box mt={100} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -154,7 +170,7 @@ const MailVerify: React.FC<Props> = (props) => {
           onBlur={() => setIsPwdFocused(false)}
           value={pwd}
           right={<TextInput.Icon
-            icon={pwdVisible ? "eye" : require('@src/assets/svg/new/eye-slash.svg')}
+            icon={pwdVisible ? "eye" : require('@src/assets/svg/new/eye-slash.png')}
             color={themeMode === "light" ? "#141414" : "#E7E7E7"}
             onPress={() => pwdVisible ? setPwdVisible(false) : setPwdVisible(true)}
           />}
@@ -177,11 +193,11 @@ const MailVerify: React.FC<Props> = (props) => {
           cursorColor="#E7E7E7"
           textColor="#E7E7E7"
           right={<TextInput.Icon
-            icon={confirmPwdVisible ? "eye" : require('@src/assets/svg/new/eye-slash.svg')}
+            icon={confirmPwdVisible ? "eye" : require('@src/assets/svg/new/eye-slash.png')}
             color={themeMode === "light" ? "#B9B9B9" : "#E7E7E7"}
             onPress={() => confirmPwdVisible ? setConfirmPwdVisible(false) : setConfirmPwdVisible(true)}
           />}
-          left={<TextInput.Icon icon={require('@src/assets/svg/new/lock.svg')} color="#B9B9B9" size={20}></TextInput.Icon>}
+          left={<TextInput.Icon icon={require('@src/assets/svg/new/lock.png')} color="#B9B9B9" size={20}></TextInput.Icon>}
           outlineStyle={{ borderColor: isConfirmPwdFocused == true ? isConfirmValid ? "#B9B9B9" : "red" : "#B9B9B9", borderRadius: 8 }}
           onChangeText={text => { validateConfirmPassword(text) }}
           style={[appStyle(themeMode).textInput, { marginTop: 20 }]}
@@ -201,7 +217,7 @@ const MailVerify: React.FC<Props> = (props) => {
             <Text style={appStyle(themeMode).font16BoldUnderline}>Resend code</Text>
           </Pressable>
         </Text>
-        <Pressable onPress={() => navigation.navigate("LogIn")}>
+        <Pressable onPress={() => returnToLogin()}>
           <Box mt={32} style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -229,6 +245,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   requestLogin: (data: any) => dispatch(loginRequest(data)),
+  deleteData: () => { dispatch({ type: DELETE_DATA }) }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MailVerify);

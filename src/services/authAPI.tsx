@@ -2,6 +2,7 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 const lscache = require("lscache");
 import { AUTH_TOKEN } from "@src/controllers/Users/constants";
+import { Platform } from "react-native";
 
 const authAxios = axios.create({
   // baseURL: process.env.EXPO_PUBLIC_API_BASE_URL,
@@ -18,8 +19,10 @@ const authAxios = axios.create({
 authAxios.interceptors.request.use(
   async (config) => {
     //const authToken = lscache.get(AUTH_TOKEN)
-    var authToken = await SecureStore.getItemAsync(AUTH_TOKEN);
-    //const authToken = 
+    var authToken: any = "";
+    if (Platform.OS !== 'web') {
+      authToken = await SecureStore.getItemAsync(AUTH_TOKEN);
+    } else authToken = lscache.get(AUTH_TOKEN);
     console.log("interrupt", authToken);
     config.headers["Authorization"] = "Bearer " + authToken;
     return config;

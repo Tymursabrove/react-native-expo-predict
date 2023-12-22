@@ -49,7 +49,7 @@ export default (state = initialState, action: any) => {
         data: null,
         error: null,
         userData: null,
-        username: null,
+        username: "",
         tableData: {},
         date: null,
         logout: "1"
@@ -99,6 +99,11 @@ export default (state = initialState, action: any) => {
         ...state,
         chartVisibility: action.payload.chartVisibility
       };
+    case "RESET_LOADING_VARIABLE":
+      return {
+        ...state,
+        loading: 0
+      }
     default:
       return state;
   }

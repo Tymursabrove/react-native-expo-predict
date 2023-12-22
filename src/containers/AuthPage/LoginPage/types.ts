@@ -5,4 +5,7 @@ export type Props = {
   error: any;
   requestLogin: Function;
   themeMode: string;
+  resetLoadingVariable: Function;
+  getUsername: Function,
+  username: string
 };

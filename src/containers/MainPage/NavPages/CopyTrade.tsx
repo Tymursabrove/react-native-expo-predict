@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@react-native-material/core";
-import { Image, Pressable, Dimensions } from "react-native"
+import { Image, Pressable, Dimensions, Platform } from "react-native"
 import { Badge, Button, Text, TextInput, Avatar } from "react-native-paper";
 import { CopyTradeProps } from "../types";
 import appStyle from "../../style";
@@ -10,6 +10,7 @@ import Forex from "../TabPages/Forex";
 import Futures from "../TabPages/Futures";
 import Hot from "../TabPages/Hot";
 import { Dropdown } from 'react-native-element-dropdown';
+import style from "../../style";
 
 
 const CopyTrade: React.FC<CopyTradeProps> = (props) => {
@@ -27,17 +28,57 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
   const [data, setData] = useState([]);
   const { width, height } = Dimensions.get("window");
 
-  let tableHeight = height - 578;
+  let tableHeight = height - 360;
+  let iostableHeight = height - 290;
   let initialism = username.split(" ")[0].substring(0, 1) + username.split(" ")[1].substring(0, 1)
 
   let name: any = [];
   let EOD = [];
-  if (tableData.data) {
-    tableData.data.forEach((row: any, index: number) => {
-      name.push({ label: row.name, value: index.toString() });
-    })
+
+  const [localTableData, setLocalTableData] = useState([]);
+  const [localTableData1, setLocalTableData1] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (tableData.data) {
+      tableData.data.forEach((row: any, index: number) => {
+        name.push({ label: row.name, value: index.toString(), bto: row.bto });
+        if (tableData.data.length === index + 1) {
+          makeData();
+        }
+      })
+    }
+  }, [tableData])
+
+  const makeData = () => {
+    setLocalTableData(name);
+    setLocalTableData1(name);
+    setIsLoading(false);
+    console.log(name[0]);
+    //setValue(name[0].value);
+    //changeInputValue({ _index: 0 })
   }
+  useEffect(() => {
+    if (tabIndex == 0) {
+      setLocalTableData(localTableData1)
+      console.log("0", localTableData1)
+    }
+    if (tabIndex == 1) {
+      console.log("1", localTableData1.filter(item => item['securityType'] == 'FOREX'))
+      setLocalTableData(localTableData1.filter(item => item['securityType'] == 'FOREX'));
+    }
+    if (tabIndex == 2) {
+      console.log("2", localTableData1.filter(item => item['securityType'] == 'FUTURE'))
+      setLocalTableData(localTableData1.filter(item => item['securityType'] == 'FUTURE'));
+    }
+    if (tabIndex == 3) {
+      console.log("3", localTableData1.filter(item => item['bto'] !== 0))
+      setLocalTableData(localTableData1.filter(item => item['bto'] !== 0));
+    }
+  }, [tabIndex]);
+
   const changeInputValue = (item: any) => {
+    console.log(item);
     console.log("-----------------", tableData.data[item._index].entryPrice, tableData.data[item._index].takeProfit, tableData.data[item._index].stopLoss)
     setEntryPrice(tableData.data[item._index].entryPrice);
     setTakeProfit(tableData.data[item._index].takeProfit);
@@ -69,7 +110,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
 
   return (
     <Box style={appStyle(themeMode).globalBackground}>
-      <Box mt={59} ml={20} mr={20} mb={100}>
+      <Box mt={59} ml={20} mr={20} mb={100} style={{ minWidth: 330, minHeight: 820 }}>
         <Box style={{
           display: "flex",
           flexDirection: "row",
@@ -111,7 +152,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
           </Box>
 
         </Box>
-        <Box mt={22} id="tab">
+        <Box mt={Platform.OS == 'ios' ? 22 : 120} id="tab">
           <Box style={{
             display: "flex",
             flexDirection: "row",
@@ -150,25 +191,29 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
               }}>Futures</Text>
             </Pressable>
             <Pressable onPress={() => setTabIndex(3)}>
-              <Text style={{
-                fontSize: 16,
-                borderBottomWidth: tabIndex == 3 ? 2 : 0,
-                borderBottomColor: themeMode == "light" ? "black" : "white",
-                fontFamily: 'Visby CF',
-                fontWeight: tabIndex == 3 ? '600' : '500',
-                color: themeMode == "light" ? tabIndex == 3 ? "black" : "#575757" : tabIndex == 3 ? "white" : "#aaabac"
-              }}>Hot</Text>
+              <Box style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{
+                  fontSize: 16,
+                  borderBottomWidth: tabIndex == 3 ? 2 : 0,
+                  borderBottomColor: themeMode == "light" ? "black" : "white",
+                  fontFamily: 'Visby CF',
+                  fontWeight: tabIndex == 3 ? '600' : '500',
+                  color: themeMode == "light" ? tabIndex == 3 ? "black" : "#575757" : tabIndex == 3 ? "white" : "#aaabac"
+                }}>Hot</Text>
+                <Image source={require('@src/assets/svg/new/fire.png')} style={{ width: 16, height: 16 }}></Image>
+              </Box>
+
             </Pressable>
 
           </Box>
-          {chartVisibility ? <Box mt={14} style={{ height: 271, backgroundColor: "#DDDBDB" }}>
+          {/* {chartVisibility ? <Box mt={14} style={{ height: 271, backgroundColor: "#DDDBDB" }}>
             {tabIndex == 0 ? <All /> : null}
             {tabIndex == 1 ? <Forex /> : null}
             {tabIndex == 2 ? <Futures /> : null}
             {tabIndex == 3 ? <Hot /> : null}
-          </Box> : <Box mt={14} style={{ height: 271 }}></Box>}
+          </Box> : <Box mt={14} style={{ height: 271 }}></Box>} */}
         </Box>
-        <Box mt={20} style={{
+        <Box mt={60} style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: 'space-between',
@@ -180,11 +225,11 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
               selectedTextStyle={{
                 color: themeMode == "light" ? "#141414" : "#E7E7E7",
               }}
-              data={dropdown1}
-              maxHeight={300}
+              data={isLoading ? [] : localTableData}
+              maxHeight={600}
               labelField="label"
               valueField="value"
-              placeholder="Heating Oil"
+              placeholder="Select the name"
               value={value}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
@@ -248,7 +293,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
             </Dropdown>
           </Box>
         </Box>
-        <Box mt={20} style={{
+        <Box mt={40} style={{
           display: "flex",
           flexDirection: "row",
           gap: 20
@@ -272,7 +317,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
             onChangeText={(str) => setAmount(str)}
           ></TextInput>
         </Box>
-        <Box mt={20} style={{
+        <Box mt={40} style={{
           display: "flex",
           flexDirection: "row",
           gap: 20
@@ -296,7 +341,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
             onChangeText={(str) => setStopLoss(str)}
           ></TextInput>
         </Box>
-        <Box mt={20} style={{
+        <Box mt={40} style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
@@ -307,7 +352,7 @@ const CopyTrade: React.FC<CopyTradeProps> = (props) => {
           padding: 20
         }}>
           <Button buttonColor="#3CD981" style={appStyle(themeMode).colorButton} textColor="white" contentStyle={{ height: 48 }}>BUY</Button>
-          <Box style={{ width: 80, height: 40 }}>
+          <Box style={{ width: 110, height: 40 }}>
             <Dropdown
               style={[appStyle(themeMode).dropdown, { flex: 1 }]}
               selectedTextStyle={{

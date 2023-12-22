@@ -171,7 +171,7 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
               10. Contact Information
             </Text>
             <Text style={appStyle(themeMode).termText}>
-              For any questions regarding these Terms, please contact us at gopredict@nexday.ai{"\n"}{"\n"}{"\n"}
+              For any questions regarding these Terms, please contact us at gopredict{"@"}nexday.ai{"\n"}{"\n"}{"\n"}
             </Text>
           </Box>
         </Box>
@@ -209,7 +209,7 @@ const TermsOfUserPage: React.FC<TermProps> = (props) => {
           }}
           contentStyle={{ height: 48 }}
           onPress={() => { navigation.navigate("LogIn") }}
-        ><Text style={{ fontFamily: 'Visby CF-Thin', fontWeight: '700', color: themeMode == "light" ? "white" : "black" }}>Close & GoPredict</Text></Button>
+        ><Text style={{ fontFamily: 'Visby CF', fontWeight: '700', color: themeMode == "light" ? "white" : "black" }}>Close & GoPredict</Text></Button>
       </Box >
     </Box>
   );

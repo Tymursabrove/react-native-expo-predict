@@ -1,4 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { getViewportUnits} from "@src/utils/viewportVariable"
+
+const units = getViewportUnits();
 
 export default appStyle = (themeMode) => StyleSheet.create({
   globalBackground: {
@@ -74,7 +77,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
     color: themeMode === "light" ? "#141414" : "#E7E7E7"
   },
   textInput: {
-    height: 60,
+    height: 6.437*units.vh,
     fontSize: 16,
     fontFamily: 'Visby CF',
     fontWeight: '400',
@@ -124,12 +127,12 @@ export default appStyle = (themeMode) => StyleSheet.create({
   columnSeparatorHeader: {
     borderColor: themeMode == "light" ? "#DDDBDB" : "#1D1F21",
     borderRightWidth: 1,
-    flex: 2
+    flex: 2.8
   },
   columnSeparatorBody: {
     borderColor: themeMode == "light" ? "#DDDBDB" : "#1D1F21",
     borderRightWidth: 1,
-    flex: 2
+    flex: 2.8
   },
   selectedTab: {
     flex: 3,
@@ -245,7 +248,7 @@ export default appStyle = (themeMode) => StyleSheet.create({
   },
   symbolName: {
     color: themeMode == "light" ? "black" : "#E7E7E7",
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'Urbanist-Regular',
     fontWeight: '600'
   },

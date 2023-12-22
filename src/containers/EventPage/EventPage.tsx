@@ -130,9 +130,11 @@ const EventPage: React.FC<Props> = (props) => {
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 1
+        zIndex: 1,
+        padding: 0
       }}>
         <AppBar
+          style={{ height: 65 }}
           title="Events"
           centerTitle={true}
           color={themeMode == "light" ? "#F4F4F4" : "#1D1F21"}
